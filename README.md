@@ -12,7 +12,7 @@ From the paper:
 ## Installation
 To install the package, you can use the following command:
 ```bash
-pip install infTDA
+pip install inf-tda
 ```
 The algorithm is implemented for pandas Series with MultiIndex, so the package includes the pandas library as a dependency.
 
@@ -21,12 +21,12 @@ It requires a pandas Series with a MultiIndex as input, the privacy parameters e
 It applies discrete Gaussian mechanism to the input, so it requires that the input contains all the possible tuples in the index. If the input does not contain all the tuples, 
 you can use the `reindex` method from pandas to add the missing tuples with value 0.
 ```python
-from infTDA import inf_tda
+from InfTDA import inf_tda
 import pandas as pd
 
 # Define the dataset
 index = [("A", "a"), ("A", "b"), ("B", "a"), ("B", "b")]
-values = [1, 2, 3, 4]
+values = [10, 20, 30, 40]
 data = pd.Series(values, index=pd.MultiIndex.from_tuples(index))
 
 # Define the privacy parameters
