@@ -1,9 +1,11 @@
 # InfTDA: A Top Down Approach to differentially private hierarchical queries
 InfTDA is a simple and efficient algorithm for releasinga dataset under differential privacy with 
-hierarchical indexings. It is based on the Top Down approach, developed by the US Census Bureau to release
-2020 Census data under differential privacy. InfTDA differs from the aforementioned approach in the optimization
-step, where it uses Chebyshev minimization leading to a more simple and efficient algorithm for integer queries, with
-theoretical guarantees.
+hierarchical indexing. It builds upon the Top-Down Algorithm (TDA), originally developed by the US Census Bureau for the 2020 
+Census data release under differential privacy. 
+The key distinction of InfTDA lies in its optimization step, 
+where it employs Chebyshev minimization. 
+This approach results in a simpler and more efficient algorithm 
+for handling integer queries while providing strong theoretical guarantees.
 
 From the paper:
 > Boninsegna, Fabrizio, and Francesco Silvestri. "Differential Privacy Releasing of Hierarchical Origin/Destination Data with a TopDown Approach." arXiv preprint arXiv:2412.09256 (2024).
@@ -31,13 +33,31 @@ data = pd.Series(values, index=pd.MultiIndex.from_tuples(index))
 epsilon = 1.
 delta = 1e-6
 budget = (epsilon, delta)
-# Sensitivity of the query (how many tuples a user can add or remove from the dataset)
-sensitivity = 1. 
+# Sensitivity of the query (in this case each user contributes to 1 tuple)
+contribution = 1  # how many tuples each user contributes to
+privacy_type = "bounded" # or "unbounded"
+distinct_tuples = True # or False if each user can contribute to multiple non-distinct tuples
 
 # Run the algorithm
-result: pd.Series = inf_tda(data, budget, sensitivity)
+result: pd.Series = inf_tda(data = data, 
+                            budget = budget, 
+                            contribution = contribution,
+                            privacy_type = privacy_type,
+                            distinct_tuples = distinct_tuples)
 ```
 The result is a pandas Series with the same index as the input data, but with the values perturbed to ensure differential privacy.
+
+### How to set the sensitivity
+The sensitivity is the maximum $\ell_2$ distance for counting queries between neighboring dataset. It is computed
+according to the following table:
+
+| Sensitivity             | Bounded Privacy | Unbounded Privacy |
+|-------------------------|-----------------|-------------------|
+| For $m$ distinct tuples | $\sqrt{2 m}$    | $\sqrt{m}$        |
+| For $m$ tuples          | $\sqrt{2} m$    | $m$               |
+
+- **Bounded Privacy**: is considered for neighboring datasets that differ in the substitution of one user. So the total number of user remains constant.
+- **Unbounded Privacy**: is considered for neighboring datasets that differ in the addition or removal of one user. So the total number of user can change.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

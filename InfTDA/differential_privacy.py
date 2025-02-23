@@ -24,6 +24,22 @@ def make_gaussian_noise(d_in: float,
     return mechanism
 
 
+def make_int_gaussian_noise(d_in: int,
+                            rho: float) -> dp.Measurement:
+    """
+    Return a Gaussian mechanism with rho (from zCDP)
+    :param d_in: int -  l1 sensitivity
+    :param rho: float - privacy budget (rho in zCDP)
+    :return: Gaussian mechanism
+    """
+    # assert dtype is int or float
+    assert rho > 0, f"Invalid rho budget: {rho}, must be > 0"
+
+    input_space = atom_domain(T=int), l2_distance(T=int)
+    mechanism = make_gaussian(*input_space, scale=d_in / np.sqrt(2 * rho))
+    return mechanism
+
+
 def get_rho_from_budget(budget: tuple[float, float]) -> float:
     """
     Return rho (from zCDP) given epsilon and delta.
