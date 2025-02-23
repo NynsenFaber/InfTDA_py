@@ -1,0 +1,10 @@
+# add envuroment.yml file to the root of the project
+name: InfTDA
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas: 2.2.3
+  - pip:
+      - opendp: 0.12.1
