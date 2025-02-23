@@ -9,6 +9,8 @@ for handling integer queries while providing strong theoretical guarantees.
 
 From the paper:
 > Boninsegna, Fabrizio, and Francesco Silvestri. "Differential Privacy Releasing of Hierarchical Origin/Destination Data with a TopDown Approach." arXiv preprint arXiv:2412.09256 (2024).
+
+This library is for general application to **pandas Series with MultiIndex**.
 ## Installation
 To install the package, you can use the following command:
 ```bash
@@ -48,6 +50,10 @@ result: pd.Series = inf_tda(data = data,
 The result is a pandas Series with the same index as the input data, but with the values perturbed to ensure differential privacy.
 
 ### How to set the sensitivity
+The sensitivity is automatically determined based on the parameters `contribution` (which is how many tuples each user contributes to), `privacy_type` (which can be "bounded" or "unbounded",
+default is "bounded") and `distinct_tuples` (a boolean parameter, defaulting to True, that specifies whether a user can only contribute to distinct tuples).
+
+
 The sensitivity is the maximum $\ell_2$ distance for counting queries between neighboring dataset. It is computed
 according to the following table:
 
