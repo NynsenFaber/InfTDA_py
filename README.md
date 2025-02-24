@@ -27,8 +27,8 @@ from InfTDA import inf_tda
 import pandas as pd
 
 # Define the dataset
-index = [("A", "a"), ("A", "b"), ("B", "a"), ("B", "b")]
-values = [10, 20, 30, 40]
+index = [("Male", ">= 18"), ("Male", "< 18"), ("Female", ">= 18"), ("Female", "< 18")]
+values = [100, 200, 300, 400]
 data = pd.Series(values, index=pd.MultiIndex.from_tuples(index))
 
 # Define the privacy parameters
@@ -37,17 +37,52 @@ delta = 1e-6
 budget = (epsilon, delta)
 # Sensitivity of the query (in this case each user contributes to 1 tuple)
 contribution = 1  # how many tuples each user contributes to
-privacy_type = "bounded" # or "unbounded"
-distinct_tuples = True # or False if each user can contribute to multiple non-distinct tuples
+privacy_type = "bounded"  # or "unbounded"
+distinct_tuples = True  # or False if each user can contribute to multiple non-distinct tuples
 
 # Run the algorithm
-result: pd.Series = inf_tda(data = data, 
-                            budget = budget, 
-                            contribution = contribution,
-                            privacy_type = privacy_type,
-                            distinct_tuples = distinct_tuples)
+result: pd.Series = inf_tda(data=data,
+                            budget=budget,
+                            contribution=contribution,
+                            privacy_type=privacy_type,
+                            distinct_tuples=distinct_tuples)
 ```
 The result is a pandas Series with the same index as the input data, but with the values perturbed to ensure differential privacy.
+```
+print("Result on n")
+print("True: ", data.sum())
+print("DP: ", result.sum())
+print("\n Result on first level")
+print("True: ", data.groupby(level=0).sum())
+print("DP: ", result.groupby(level=0).sum())
+print("\n Result on second level")
+print("True: ", data.groupby(level=[0, 1]).sum())
+print("DP: ", result.groupby(level=[0, 1]).sum())
+
+Result on n
+True:  1000
+DP:  1000
+
+ Result on first level
+True:  Female    700
+Male      300
+dtype: int64
+DP:  Female    700
+Male      300
+dtype: int64
+
+ Result on second level
+True:  Female  < 18     400
+        >= 18    300
+Male    < 18     200
+        >= 18    100
+dtype: int64
+DP:  Female  < 18     393
+        >= 18    307
+Male    < 18     198
+        >= 18    102
+dtype: int64
+```
 
 ### How to set the sensitivity
 The sensitivity is automatically determined based on the parameters `contribution` (which is how many tuples each user contributes to), `privacy_type` (which can be "bounded" or "unbounded",
