@@ -8,9 +8,14 @@ This approach results in a simpler and more efficient algorithm
 for handling integer queries while providing strong theoretical guarantees.
 
 From the paper:
-> Boninsegna, Fabrizio, and Francesco Silvestri. "Differential Privacy Releasing of Hierarchical Origin/Destination Data with a TopDown Approach." arXiv preprint arXiv:2412.09256 (2024).
+> Differentially Private Release of Hierarchical Origin/Destination Data with a TopDown Approach
+Fabrizio Boninsegna, Francesco Silvestri. Proc. 25th Privacy Enhancing Technologies Symposium (PETS), 2025.
 
-This library is for general application to **pandas Series with MultiIndex**.
+
+
+This library is for general application to **pandas Series with MultiIndex**, better described in
+> InfTDA: a Simple TopDown Mechanism for Hierarchical Differentially Private Counting Queries
+Fabrizio Boninsegna Workshop on Theory and Practice of Differential Privacy (TPDP) 2025.
 ## Installation
 To install the package, you can use the following command:
 ```bash
