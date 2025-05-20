@@ -30,6 +30,7 @@ def inf_tda(data: pd.Series,
         # Not implemented yet
         raise NotImplementedError("Unbounded privacy is not implemented yet")
 
+    data_name = data.name
     # sort intial data for higher performance
     data = data.sort_index()
 
@@ -70,7 +71,7 @@ def inf_tda(data: pd.Series,
         c = c_new
     # return the final dataframe
     c_index, c_values = zip(*c)
-    return pd.Series(c_values, index=pd.MultiIndex.from_tuples(c_index), dtype=int)
+    return pd.Series(c_values, index=pd.MultiIndex.from_tuples(c_index), dtype=int, name=data_name)
 
 
 def get_sensitivity(m: int, privacy_type: str, distinct: bool) -> float:
