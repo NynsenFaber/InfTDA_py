@@ -21,6 +21,10 @@ To install the package, you can use the following command:
 ```bash
 pip install inf-tda
 ```
+or use the conda environment `InfTDA` provided in the `environment.yml` file.
+```bash
+conda env create -f environment.yml
+```
 The algorithm is implemented for pandas Series with MultiIndex, so the package includes the pandas library as a dependency.
 
 ## Usage

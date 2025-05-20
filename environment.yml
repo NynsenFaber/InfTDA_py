@@ -1,0 +1,10 @@
+name: InfTDA
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas=2.2.3
+  - numpy=2.2.6
+  - pip:
+      - opendp==0.12.1
